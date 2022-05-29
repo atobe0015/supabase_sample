@@ -17,7 +17,7 @@ export const useGetAuthUser = (config: MutationConfig<typeof getAuthUser>) => {
 type CreateUserProps = {
   email: string
   password: string
-  options: {
+  options?: {
     redirectTo?: string
     data?: object
     captchaToken?: string

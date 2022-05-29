@@ -1,4 +1,4 @@
-import { Page } from '@/components/Templates/Auth/Login'
+import { Page } from '@/components/Templates/Auth/SignUp'
 
 import type { NextPage } from 'next'
 
