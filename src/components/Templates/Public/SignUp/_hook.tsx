@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 
-import { useSignUpUserUser } from '@/hooks/useAuthUser'
+import { useSignUp } from '@/hooks/useAuthUser'
 
 const useSignUpForm = () => {
   const methods = useForm({
@@ -11,11 +11,11 @@ const useSignUpForm = () => {
     },
   })
 
-  const SignUpUserMutation = useSignUpUserUser({})
+  const SignUpUserMutation = useSignUp({})
 
   const onSubmit = methods.handleSubmit(async () => {
     const reqBody = methods.getValues()
-    const response = await SignUpUserMutation.mutateAsync(reqBody)
+    await SignUpUserMutation.mutateAsync(reqBody)
   })
 
   const fields = {
@@ -28,6 +28,6 @@ const useSignUpForm = () => {
 
 export type UseHookReturn = ReturnType<typeof useHook>
 export const useHook = () => {
-  const form = useSignUpForm()
-  return { form }
+  const signUp = useSignUpForm()
+  return { signUp }
 }
