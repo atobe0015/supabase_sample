@@ -1,20 +1,19 @@
-import { Box, FormControl, Input } from '@chakra-ui/react'
+import { Heading, Container, SimpleGrid } from '@chakra-ui/react'
 import { memo } from 'react'
-import { FormProvider } from 'react-hook-form'
+
+import { SignInForm } from '@/components/Domain/Authentication/SignIn'
 
 import { UseHookReturn } from './_hook'
 
-export const View = memo<UseHookReturn>(({ signIn }) => {
+export const View = memo<UseHookReturn>(() => {
   return (
-    <FormProvider {...signIn.methods}>
-      <Box as="form" onSubmit={signIn.onSubmit}>
-        <FormControl>
-          <Input {...signIn.fields.email} />
-        </FormControl>
-        <FormControl>
-          <Input {...signIn.fields.password} />
-        </FormControl>
-      </Box>
-    </FormProvider>
+    <SimpleGrid minH="100vh" placeItems="center">
+      <Container>
+        <Heading textAlign="center" mb={8}>
+          備品チェックシステム
+        </Heading>
+        <SignInForm />
+      </Container>
+    </SimpleGrid>
   )
 })

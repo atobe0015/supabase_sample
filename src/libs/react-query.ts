@@ -1,3 +1,4 @@
+import { ApiError } from '@supabase/supabase-js'
 import { AxiosError } from 'axios'
 import { QueryClient, UseQueryOptions, UseMutationOptions, DefaultOptions } from 'react-query'
 import { PromiseValue } from 'type-fest'
@@ -23,6 +24,6 @@ export type QueryConfig<QueryFnType extends (...args: any) => any> = Omit<
 
 export type MutationConfig<MutationFnType extends (...args: any) => any> = UseMutationOptions<
   ExtractFnReturnType<MutationFnType>,
-  AxiosError,
+  AxiosError | ApiError,
   Parameters<MutationFnType>[0]
 >

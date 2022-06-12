@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
+import { z } from 'zod'
 
 import { MutationConfig } from '@/libs/react-query'
 import { supabase } from '@/libs/supabase'
@@ -34,24 +35,28 @@ export const useSignUp = (config: MutationConfig<typeof signUpFn>) => {
   })
 }
 
-type SignInUserDTO = {
-  email: string
-  password: string
-}
-const signInFn = async ({ email, password }: SignInUserDTO) => {
-  return await supabase.auth.api.signInWithEmail(email, password)
+export const SignInUserDTO = z.object({
+  email: z.string(),
+  password: z.string(),
+})
+
+const signInFn = async (reqBody: z.infer<typeof SignInUserDTO>) => {
+  const { email, password } = SignInUserDTO.parse(reqBody)
+  const { data, error } = await supabase.auth.api.signInWithEmail(email, password)
+  if (error) throw error
+  return data
 }
 
-export const useSignIn = (config: MutationConfig<typeof signInFn>) => {
+export const useSignInMutation = (config: MutationConfig<typeof signInFn> = {}) => {
   const { setAuthToken } = useAuthTokenMutators()
   const { setAuthUser } = useAuthUserMutators()
   const Router = useRouter()
   return useMutation({
     mutationFn: signInFn,
     onSuccess: (response) => {
-      if (response.data?.user) {
-        setAuthToken(response.data.access_token)
-        const { role, id, email } = response.data.user
+      if (response?.user) {
+        setAuthToken(response.access_token)
+        const { role, id, email } = response.user
         setAuthUser({
           role,
           id,
@@ -59,6 +64,9 @@ export const useSignIn = (config: MutationConfig<typeof signInFn>) => {
         })
         Router.push('/dashboard')
       }
+    },
+    onError: async (error) => {
+      return error
     },
     ...config,
   })
