@@ -1,17 +1,18 @@
 import localForage from 'localforage'
-import { AtomEffect, DefaultValue } from 'recoil'
+import { AtomEffect } from 'recoil'
 
 type LocalForageEffect = (TKey: string) => AtomEffect<any>
-export const localForageEffect: LocalForageEffect =
-  (key: string) =>
-  ({ setSelf, onSet }) => {
-    setSelf(
-      localForage
-        .getItem(key)
-        .then((savedValue) => (savedValue != null ? JSON.parse(savedValue) : new DefaultValue())),
-    )
+export const localForageEffect: LocalForageEffect = (key: string) => {
+  return ({ setSelf, onSet }) => {
+    const loadPresisted = async () => {
+      const savedValue: string | null = await localForage.getItem(key)
+      if (savedValue) setSelf(JSON.parse(savedValue))
+    }
 
-    onSet((newValue, _, isReset) => {
-      isReset ? localForage.removeItem(key) : localForage.setItem(key, JSON.stringify(newValue))
+    loadPresisted()
+
+    onSet((newValue) => {
+      localForage.setItem(key, JSON.stringify(newValue))
     })
   }
+}
