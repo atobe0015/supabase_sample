@@ -1,4 +1,4 @@
-import { Page } from '@/components/Templates/Auth/Token'
+import { Page } from '@/components/Templates/Token'
 
 import type { NextPage } from 'next'
 

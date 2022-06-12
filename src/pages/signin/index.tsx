@@ -1,4 +1,4 @@
-import { Page } from '@/components/Templates/Public/SignIn'
+import { Page } from '@/components/Templates/SignIn'
 
 import type { NextPage } from 'next'
 

@@ -1,10 +1,11 @@
+import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 
 import { MutationConfig } from '@/libs/react-query'
 import { supabase } from '@/libs/supabase'
+
 import { useAuthTokenMutators, useAuthTokenState } from '@/stores/authToken'
 import { useAuthUserMutators } from '@/stores/authUser'
-import { useRouter } from 'next/router'
 
 const getAuthUser = async (jwtToken: string) => {
   return await supabase.auth.api.getUser(jwtToken)

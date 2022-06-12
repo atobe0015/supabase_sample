@@ -2,13 +2,16 @@ import '@/styles/global.scss'
 import { QueryClientProvider } from 'react-query'
 import { RecoilRoot } from 'recoil'
 
+import { ChakraProvider } from '@/libs/chakraUI'
 import { queryClient } from '@/libs/react-query'
 
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+        <ChakraProvider>
+          <Component {...pageProps} />
+        </ChakraProvider>
       </QueryClientProvider>
     </RecoilRoot>
   )
