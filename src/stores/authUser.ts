@@ -13,6 +13,7 @@ const AuthUserRecoilState = atom<AuthUser | null>({
 })
 
 export const useAuthUserState = () => {
+  console.log(AuthUserRecoilState)
   return useRecoilValue(AuthUserRecoilState)
 }
 
